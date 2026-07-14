@@ -1,77 +1,250 @@
-@extends('layouts.app')
+<x-app-layout>
 
-@section('content')
+<div class="max-w-7xl mx-auto h-full bg-white rounded-xl shadow overflow-hidden">
 
-<h1 class="text-3xl font-bold mb-6">
-    Messages
-</h1>
+    <div class="grid grid-cols-12 h-full overflow-hidden">
 
-<div class="grid md:grid-cols-3 gap-6">
+        {{-- ========================= --}}
+        {{-- SIDEBAR PARTNER --}}
+        {{-- ========================= --}}
 
-    <!-- LIST TEMAN -->
-    <div class="bg-white rounded-xl shadow p-5">
+        <div class="col-span-4 border-r overflow-y-auto h-full">
 
-        <h3 class="font-bold mb-4">
-            Teman Belajar
-        </h3>
+            <div class="p-5 border-b">
+                <h2 class="font-bold text-2xl">
+                    Messages
+                </h2>
 
-        <ul class="space-y-3">
-
-            <li class="border-b pb-2">
-                Dian Hana
-            </li>
-
-            <li class="border-b pb-2">
-                Hani
-            </li>
-
-            <li class="border-b pb-2">
-                Mila
-            </li>
-
-            <li class="border-b pb-2">
-                Lena
-            </li>
-
-        </ul>
-
-    </div>
-
-    <!-- CHAT -->
-    <div class="md:col-span-2 bg-white rounded-xl shadow p-5">
-
-        <h3 class="font-bold mb-5">
-            Chat Room
-        </h3>
-
-        <div class="space-y-4">
-
-            <div class="bg-gray-100 p-3 rounded">
-                Hani : Besok belajar Laravel?
+                <p class="text-gray-500 text-sm mt-1">
+                    Pilih partner untuk memulai percakapan.
+                </p>
             </div>
 
-            <div class="bg-blue-100 p-3 rounded">
-                Dian : Boleh jam 7 malam
-            </div>
+            @forelse($friends as $friend)
 
-            <div class="bg-gray-100 p-3 rounded">
-                Mila : Aku ikut juga
-            </div>
+                <a
+                    href="{{ route('messages',['user'=>$friend->friend->id]) }}"
+                    class="flex items-center justify-between p-4 hover:bg-gray-100 transition
+                    {{ request('user') == $friend->friend->id ? 'bg-blue-50 border-r-4 border-blue-600' : '' }}">
+
+                    <div class="flex items-center gap-3">
+
+                        <img
+                            src="https://ui-avatars.com/api/?name={{ urlencode($friend->friend->name) }}&background=3b82f6&color=fff"
+                            class="w-12 h-12 rounded-full">
+
+                        <div>
+
+                            <div class="flex justify-between items-center">
+
+                            <h3 class="font-semibold">
+
+                                {{ $friend->friend->name }}
+
+                            </h3>
+
+                            @if($friend->lastMessage)
+
+                                <span class="text-xs text-gray-400">
+
+                                    {{ $friend->lastMessage->created_at->format('H:i') }}
+
+                                </span>
+
+                            @endif
+
+                        </div>
+
+                            <p class="text-sm text-gray-500">
+                                {{ $friend->friend->user_code }}
+                            </p>
+
+                            @if($friend->lastMessage)
+                                <p class="text-xs text-gray-400 truncate w-40">
+                                    @if($friend->lastMessage)
+
+                                    <p class="text-gray-500 text-sm truncate w-44">
+
+                                    @if($friend->lastMessage->sender_id==auth()->id())
+
+                                    <b>Anda:</b>
+
+                                    @endif
+
+                                    {{ $friend->lastMessage->message }}
+
+                                    </p>
+
+                                    @endif
+                                </p>
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                    @if($friend->unread > 0)
+
+                        <span
+                            class="bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+
+                            {{ $friend->unread }}
+
+                        </span>
+
+                    @endif
+
+                </a>
+
+            @empty
+
+                <div class="p-10 text-center text-gray-500">
+                    Belum mempunyai partner.
+                </div>
+
+            @endforelse
 
         </div>
 
-        <div class="flex gap-2 mt-6">
+        {{-- ========================= --}}
+        {{-- CHAT --}}
+        {{-- ========================= --}}
 
-            <input
-                type="text"
-                placeholder="Ketik pesan..."
-                class="border p-3 rounded w-full">
+        <div class="col-span-8 flex flex-col h-full overflow-hidden">
 
-            <button
-                onclick="alert('Pesan berhasil dikirim')"
-                class="bg-indigo-600 text-white px-4 rounded">
-                Kirim
-            </button>
+            @if($selectedUser)
+
+            {{-- HEADER CHAT --}}
+
+            <div class="border-b p-5 flex items-center gap-4">
+
+                <img
+                    src="https://ui-avatars.com/api/?name={{ urlencode($selectedUser->name) }}&background=10b981&color=fff"
+                    class="w-12 h-12 rounded-full">
+
+                <div>
+
+                    <h2 class="font-bold text-lg">
+                        {{ $selectedUser->name }}
+                    </h2>
+
+                    <p class="text-gray-500 text-sm">
+                        {{ $selectedUser->user_code }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {{-- CHAT BODY --}}
+
+           
+
+                <div
+                    id="chat-box"
+                    class="flex-1 overflow-y-auto p-6 bg-gray-50">
+
+                                    @forelse($messages as $message)
+
+                    @if($message->sender_id == auth()->id())
+
+                        <div class="flex justify-end mb-4">
+
+                            <div class="bg-blue-600 text-white rounded-xl px-4 py-3 max-w-sm">
+
+                                {{ $message->message }}
+
+                                <div class="text-xs mt-2 text-blue-100 text-right">
+
+                                    {{ $message->created_at->format('H:i') }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @else
+
+                        <div class="flex justify-start mb-4">
+
+                            <div class="bg-white rounded-xl px-4 py-3 shadow max-w-sm">
+
+                                {{ $message->message }}
+
+                                <div class="text-xs mt-2 text-gray-400 text-right">
+
+                                    {{ $message->created_at->format('H:i') }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endif
+
+                @empty
+
+                    <div class="flex justify-center items-center h-full text-gray-400">
+
+                        Belum ada percakapan.
+
+                    </div>
+
+                @endforelse
+
+            </div>
+
+            {{-- INPUT CHAT --}}
+            <form
+                action="{{ route('messages.send') }}"
+                method="POST"
+                class="border-t p-5 flex gap-3 ">
+
+                @csrf
+
+                <input
+                    type="hidden"
+                    name="receiver_id"
+                    value="{{ $selectedUser->id }}">
+
+                <input
+                    type="text"
+                    name="message"
+                    placeholder="Tulis pesan..."
+                    class="flex-1 border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+
+                <button
+                    type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-lg">
+
+                    Kirim
+
+                </button>
+
+            </form>
+
+            @else
+
+            <div class="flex flex-col justify-center items-center h-full">
+
+                <div class="text-6xl mb-5">
+                    💬
+                </div>
+
+                <h2 class="text-2xl font-bold">
+                    Selamat Datang di Chat
+                </h2>
+
+                <p class="text-gray-500 mt-3">
+                    Pilih partner di sebelah kiri untuk mulai mengobrol.
+                </p>
+
+            </div>
+
+            @endif
 
         </div>
 
@@ -79,4 +252,22 @@
 
 </div>
 
-@endsection
+@if($selectedUser)
+
+<script>
+
+window.onload = function () {
+
+    let chatBox = document.getElementById('chat-box');
+
+    if(chatBox){
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+}
+
+</script>
+
+@endif
+
+</x-app-layout>

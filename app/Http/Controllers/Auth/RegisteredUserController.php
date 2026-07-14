@@ -37,6 +37,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
+            'user_code' => 'STM'.str_pad(User::count()+1,6,'0',STR_PAD_LEFT),
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
