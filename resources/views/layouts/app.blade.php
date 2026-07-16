@@ -11,19 +11,19 @@
 
 </head>
 
-<body class="bg-gray-100 h-screen overflow-hidden">
+<body class="bg-gray-100">
 
     @include('partials.sidebar')
 
-    <div class="ml-64 h-screen flex flex-col">
+    <div class="ml-64">
 
         @include('partials.navbar')
 
-        <main class="flex-1 overflow-hidden p-8">
+        <div class="p-8">
 
             {{ $slot }}
 
-        </main>
+        </div>
 
     </div>
 

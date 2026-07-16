@@ -1,66 +1,235 @@
-@extends('layouts.app')
+<x-app-layout>
 
-@section('content')
+<div class="max-w-6xl mx-auto">
 
-<h1 class="text-3xl font-bold mb-6">
-    Group HighFive
-</h1>
+    {{-- Cover --}}
+    <div class="bg-white rounded-xl shadow overflow-hidden">
 
-<div class="grid md:grid-cols-2 gap-6">
+        <img
+            src="{{ asset('images/groups/'.$group->cover) }}"
+            class="w-full h-72 object-cover">
 
-    <!-- ANGGOTA -->
-    <div class="bg-white p-5 rounded-xl shadow">
+        <div class="p-8">
 
-        <h2 class="font-bold text-xl mb-4">
-            Anggota Group
-        </h2>
+            <div class="flex justify-between items-start">
 
-        <ul class="space-y-2">
+                <div>
 
-            <li>Dian Hana</li>
-            <li>Hani</li>
-            <li>Mila</li>
-            <li>Lena</li>
+                    <h1 class="text-3xl font-bold">
+                        {{ $group->name }}
+                    </h1>
 
-        </ul>
+                    <p class="text-gray-500 mt-2">
+                        {{ $group->description }}
+                    </p>
+
+                    <div class="mt-5 flex gap-6 text-gray-600">
+
+                        <span>
+                            👑 {{ $group->owner->name }}
+                        </span>
+
+                        <span>
+                            👥 {{ $group->members->count() }} Members
+                        </span>
+
+                    </div>
+
+                </div>
+
+                @if($joined)
+
+                    <form
+                        action="{{ route('groups.leave',$group->id) }}"
+                        method="POST">
+
+                        @csrf
+
+                        <button
+                            class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg">
+
+                            Leave Group
+
+                        </button>
+
+                    </form>
+
+                @else
+
+                    <form
+                        action="{{ route('groups.join',$group->id) }}"
+                        method="POST">
+
+                        @csrf
+
+                        <button
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+
+                            Join Group
+
+                        </button>
+
+                    </form>
+
+                @endif
+
+            </div>
+
+        </div>
 
     </div>
 
-    <!-- MATERI -->
-    <div class="bg-white p-5 rounded-xl shadow">
+    {{-- Content --}}
+    <div class="grid lg:grid-cols-3 gap-6 mt-8">
 
-        <h2 class="font-bold text-xl mb-4">
-            Materi Group
-        </h2>
+        {{-- Materi --}}
+        <div class="lg:col-span-2 space-y-6">
 
-        <ul class="space-y-2">
+            <div class="bg-white rounded-xl shadow p-6">
 
-            <li>Laravel Dasar.pdf</li>
-            <li>Algoritma.pdf</li>
-            <li>Machine Learning.pdf</li>
+                <h2 class="font-bold text-xl mb-5">
+                    📂 Materi
+                </h2>
 
-        </ul>
+                @if($joined)
+
+                <form
+                    action="{{ route('materials.store',$group->id) }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="mb-6">
+
+                    @csrf
+
+                    <input
+                        type="text"
+                        name="title"
+                        placeholder="Judul Materi"
+                        class="w-full border rounded-lg p-3 mb-3"
+                        required>
+
+                    <input
+                        type="file"
+                        name="file"
+                        class="w-full border rounded-lg p-3 mb-3"
+                        required>
+
+                    <button
+                        class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg">
+
+                        Upload Materi
+
+                    </button>
+
+                </form>
+
+                @endif
+
+                @forelse($group->materials as $material)
+
+                    <div class="border rounded-lg p-4 mb-4">
+
+                        <div class="font-bold text-lg">
+
+                            {{ $material->title }}
+
+                        </div>
+
+                        <div class="text-gray-500 text-sm mt-1">
+
+                            Upload oleh
+                            <b>{{ $material->user->name }}</b>
+
+                        </div>
+
+                        <div class="text-gray-400 text-xs mt-1">
+
+                            {{ $material->created_at->format('d M Y H:i') }}
+
+                        </div>
+
+                        <a
+                            href="{{ route('materials.download',$material->id) }}"
+                            class="inline-block mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+
+                            Download
+
+                        </a>
+
+                    </div>
+
+                @empty
+
+                    <div class="text-center text-gray-400 py-8">
+
+                        Belum ada materi.
+
+                    </div>
+
+                @endforelse
+
+            </div>
+
+            {{-- Diskusi --}}
+            <div class="bg-white rounded-xl shadow p-6">
+
+                <h2 class="font-bold text-xl mb-4">
+                    💬 Diskusi
+                </h2>
+
+                <div class="text-gray-400">
+
+                    Fitur diskusi akan segera tersedia.
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- Sidebar --}}
+        <div>
+
+            <div class="bg-white rounded-xl shadow p-6">
+
+                <h2 class="font-bold text-xl mb-5">
+                    👥 Anggota
+                </h2>
+
+                @foreach($group->members as $member)
+
+                    <div class="flex items-center gap-3 mb-4">
+
+                        <img
+                            src="https://ui-avatars.com/api/?name={{ urlencode($member->user->name) }}&background=3b82f6&color=fff"
+                            class="w-10 h-10 rounded-full">
+
+                        <div>
+
+                            <div class="font-semibold">
+
+                                {{ $member->user->name }}
+
+                            </div>
+
+                            <div class="text-sm text-gray-500">
+
+                                {{ $member->user->user_code }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                @endforeach
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
 
-<div class="bg-white p-5 rounded-xl shadow mt-6">
-
-    <h2 class="font-bold text-xl mb-4">
-        Diskusi Group
-    </h2>
-
-    <div class="space-y-3">
-
-        <p>Hani : Besok belajar Laravel?</p>
-
-        <p>Dian : Siap</p>
-
-        <p>Mila : Aku ikut</p>
-
-    </div>
-
-</div>
-
-@endsection
+</x-app-layout>

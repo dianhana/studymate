@@ -23,42 +23,42 @@
         <a href="{{ route('dashboard') }}"
             class="menu flex items-center justify-between px-8 py-4 hover:bg-blue-700 transition">
 
-            <span>🏠 Dashboard</span>
+            <span>Dashboard</span>
 
         </a>
 
         <a href="{{ route('partners') }}"
             class="menu flex items-center justify-between px-8 py-4 hover:bg-blue-700 transition">
 
-            <span>👥 Partners</span>
+            <span>Partners</span>
 
         </a>
 
         <a href="{{ route('partner.requests') }}"
             class="menu flex items-center justify-between px-8 py-4 hover:bg-blue-700 transition">
 
-            <span>📨 Permintaan Partner</span>
+            <span>Permintaan Partner</span>
 
         </a>
 
         <a href="{{ route('friends') }}"
             class="menu flex items-center justify-between px-8 py-4 hover:bg-blue-700 transition">
 
-            <span>🤝 Partner Saya</span>
+            <span>Partner Saya</span>
 
         </a>
 
         <a href="/groups"
             class="menu flex items-center justify-between px-8 py-4 hover:bg-blue-700 transition">
 
-            <span>👨‍🏫 Groups</span>
+            <span>Groups</span>
 
         </a>
 
         <a href="{{ route('messages') }}"
             class="menu flex items-center justify-between px-8 py-4 hover:bg-blue-700 transition">
 
-            <span>💬 Messages</span>
+            <span>Messages</span>
 
             @if($unread > 0)
                 <span
@@ -72,14 +72,14 @@
         <a href="/books"
             class="menu flex items-center justify-between px-8 py-4 hover:bg-blue-700 transition">
 
-            <span>📚 Materials</span>
+            <span>Materials</span>
 
         </a>
 
         <a href="{{ route('profile.edit') }}"
             class="menu flex items-center justify-between px-8 py-4 hover:bg-blue-700 transition">
 
-            <span>👤 Profile</span>
+            <span>Profile</span>
 
         </a>
 

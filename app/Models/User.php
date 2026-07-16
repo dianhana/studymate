@@ -82,4 +82,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class,'receiver_id');
     }
+    public function groupMessages()
+    {
+        return $this->hasMany(GroupMessage::class);
+    }
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
+    }
 }

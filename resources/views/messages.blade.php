@@ -1,6 +1,6 @@
 <x-app-layout>
 
-<div class="max-w-7xl mx-auto h-full bg-white rounded-xl shadow overflow-hidden">
+<div class="max-w-7xl mx-auto h-[calc(100vh-170px)] bg-white rounded-xl shadow overflow-hidden">
 
     <div class="grid grid-cols-12 h-full overflow-hidden">
 
@@ -8,7 +8,7 @@
         {{-- SIDEBAR PARTNER --}}
         {{-- ========================= --}}
 
-        <div class="col-span-4 border-r overflow-y-auto h-full">
+        <div class="col-span-4 border-r flex flex-col">
 
             <div class="p-5 border-b">
                 <h2 class="font-bold text-2xl">
