@@ -12,13 +12,36 @@ return new class extends Migration
 
             $table->id();
 
-            $table->foreignId('group_id')->constrained()->cascadeOnDelete();
+            // Group tempat materi diupload
+            $table->foreignId('group_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            // Pengupload materi
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
+            // Judul materi
             $table->string('title');
 
+            // Deskripsi
+            $table->text('description')->nullable();
+
+            // Nama file
             $table->string('file');
+
+            // Ukuran file
+            $table->string('file_size')->nullable();
+
+            // Tipe file
+            $table->string('file_type')->nullable();
+
+            // Premium / Free
+            $table->boolean('is_premium')->default(false);
+
+            // Jumlah download
+            $table->unsignedInteger('downloads')->default(0);
 
             $table->timestamps();
 

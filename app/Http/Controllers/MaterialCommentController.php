@@ -11,19 +11,15 @@ class MaterialCommentController extends Controller
     public function store(Request $request, Material $material)
     {
         $request->validate([
-            'comment'=>'required'
+            'comment' => 'required|max:1000'
         ]);
 
         MaterialComment::create([
-
-            'material_id'=>$material->id,
-
-            'user_id'=>auth()->id(),
-
-            'comment'=>$request->comment
-
+            'material_id' => $material->id,
+            'user_id'     => auth()->id(),
+            'comment'     => $request->comment
         ]);
 
-        return back()->with('success','Komentar berhasil ditambahkan.');
+        return back()->with('success', 'Komentar berhasil ditambahkan.');
     }
 }

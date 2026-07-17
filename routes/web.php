@@ -8,6 +8,9 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupMessageController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialCommentController;
+use App\Http\Controllers\PremiumController;
+use App\Http\Controllers\PaymentController;
+
 
 
 Route::get('/', function () {
@@ -77,10 +80,7 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::view('/groups', 'groups')
-        ->name('groups');
-
-    Route::view('/books', 'books')
+Route::view('/books', 'books')
         ->name('books');
 
 
@@ -105,13 +105,36 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/groups/{group}/materials',[MaterialController::class,'store'])
         ->name('materials.store');
 
-    Route::get('/materials/{material}',[MaterialController::class,'download'])
-        ->name('materials.download');
-
-    Route::post(
+Route::post(
         '/materials/{material}/comment',
         [MaterialCommentController::class,'store'])->name('materials.comment');
 
+    Route::get('/materials/{material}/download', [MaterialController::class,'download'])
+    ->name('materials.download');
+
+    Route::get('/premium', [PremiumController::class,'index'])
+    ->name('premium');
+
+    Route::get('/premium/payment', [PaymentController::class,'index'])
+    ->name('premium.payment');
+
+    Route::post('/premium/payment', [PaymentController::class,'process'])
+    ->name('premium.process');
+
+    Route::get('/premium/checkout', [PremiumController::class, 'checkout'])
+        ->name('premium.checkout');
+
+    Route::post('/premium/pay', [PremiumController::class, 'pay'])
+        ->name('premium.pay');
+
+    Route::get('/materials/{material}/edit', [MaterialController::class,'edit'])
+    ->name('materials.edit');
+
+    Route::put('/materials/{material}', [MaterialController::class,'update'])
+        ->name('materials.update');
+
+    Route::delete('/materials/{material}', [MaterialController::class,'destroy'])
+        ->name('materials.destroy');
 });
 
 require __DIR__.'/auth.php';

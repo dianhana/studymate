@@ -10,20 +10,21 @@ class Material extends Model
         'group_id',
         'user_id',
         'title',
-        'file'
+        'description',
+        'file',
+        'file_size',
+        'file_type',
+        'is_premium',
+        'downloads'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function group()
     {
         return $this->belongsTo(Group::class);
     }
-    public function comments()
+
+    public function user()
     {
-        return $this->hasMany(MaterialComment::class);
+        return $this->belongsTo(User::class);
     }
 }

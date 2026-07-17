@@ -10,60 +10,45 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * Kolom yang boleh diisi (Mass Assignment)
-     */
     protected $fillable = [
         'user_code',
         'name',
         'email',
         'password',
+        'membership',
+        'membership_expired_at'
     ];
 
-    /**
-     * Kolom yang disembunyikan
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Casts
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'membership_expired_at' => 'datetime',
         ];
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Relationships
+    | FRIEND
     |--------------------------------------------------------------------------
     */
 
-    // Permintaan pertemanan yang dikirim
     public function sentRequests()
     {
         return $this->hasMany(FriendRequest::class, 'sender_id');
     }
 
-    // Permintaan pertemanan yang diterima
     public function receivedRequests()
     {
         return $this->hasMany(FriendRequest::class, 'receiver_id');
     }
 
-    // Group yang dimiliki
-    public function groups()
-    {
-        return $this->hasMany(StudyGroup::class, 'owner_id');
-    }
-
-    // Daftar teman
     public function friends()
     {
         return $this->hasMany(Friend::class, 'user_id');
@@ -73,21 +58,84 @@ class User extends Authenticatable
     {
         return $this->hasMany(Friend::class, 'user_id');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | CHAT
+    |--------------------------------------------------------------------------
+    */
+
     public function sentMessages()
     {
-        return $this->hasMany(Message::class,'sender_id');
+        return $this->hasMany(Message::class, 'sender_id');
     }
 
     public function receivedMessages()
     {
-        return $this->hasMany(Message::class,'receiver_id');
+        return $this->hasMany(Message::class, 'receiver_id');
     }
+
     public function groupMessages()
     {
         return $this->hasMany(GroupMessage::class);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | GROUP
+    |--------------------------------------------------------------------------
+    */
+
+    // Group yang dibuat user
+    public function groups()
+    {
+        return $this->hasMany(Group::class, 'owner_id');
+    }
+
+    // Group yang diikuti user
+    public function myGroups()
+    {
+        return $this->hasMany(GroupMember::class, 'user_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MATERIAL
+    |--------------------------------------------------------------------------
+    */
+
     public function materials()
     {
         return $this->hasMany(Material::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MEMBERSHIP
+    |--------------------------------------------------------------------------
+    */
+
+    public function isFree()
+    {
+        return $this->membership === 'free';
+    }
+
+    public function isTrial()
+    {
+        return $this->membership === 'trial'
+            && $this->membership_expired_at
+            && now()->lessThanOrEqualTo($this->membership_expired_at);
+    }
+
+    public function isPremium()
+    {
+        return $this->membership === 'premium'
+            && $this->membership_expired_at
+            && now()->lessThanOrEqualTo($this->membership_expired_at);
+    }
+
+    public function hasActiveMembership()
+    {
+        return ($this->isTrial() || $this->isPremium());
     }
 }

@@ -84,8 +84,10 @@ class GroupController extends Controller
     $joined = GroupMember::where('group_id', $group->id)
         ->where('user_id', auth()->id())
         ->exists();
+    
+    $isOwner = $group->owner_id == auth()->id();
 
-    return view('group-detail', compact('group','joined'));
+    return view('group-detail', compact('group','joined', 'isOwner'));
     }
     
 }
