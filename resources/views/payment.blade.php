@@ -1,12 +1,8 @@
 <x-app-layout>
-
+@section('title', 'Pembayaran Premium')
 <div class="max-w-2xl mx-auto py-10">
 
     <div class="bg-white rounded-xl shadow p-8">
-
-        <h1 class="text-3xl font-bold mb-2">
-            Pembayaran Premium
-        </h1>
 
         <p class="text-gray-500 mb-8">
             Pilih metode pembayaran untuk mengaktifkan Premium selama 1 bulan.

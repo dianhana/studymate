@@ -1,11 +1,6 @@
 <x-app-layout>
-    <div class="bg-red-200 p-4 mb-5">
-    joined = {{ $joined ? 'YES' : 'NO' }} <br>
-    owner = {{ $isOwner ? 'YES' : 'NO' }} <br>
-    login = {{ auth()->id() }} <br>
-    owner_id = {{ $group->owner_id }}
-</div>
-
+    @section('title', 'Detail Group')
+   
 <div class="max-w-6xl mx-auto py-8 px-4">
 
     {{-- Cover --}}

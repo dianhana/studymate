@@ -1,5 +1,5 @@
 <x-app-layout>
-
+@section('title', 'Upgrade Premium')
 <div class="max-w-6xl mx-auto py-10">
 
     @if(session('success'))

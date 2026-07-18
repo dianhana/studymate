@@ -33,7 +33,10 @@ class DashboardController extends Controller
             ->count();
 
         // Group terbaru
-        $recentGroups = Group::latest()->take(5)->get();
+        $recentGroups = Group::withCount('members')
+            ->latest()
+            ->take(5)
+            ->get();
 
         // Materi terbaru
         $recentMaterials = Material::with('user')

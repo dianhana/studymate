@@ -1,14 +1,11 @@
 <x-app-layout>
-
+@section('title', 'Study Groups')
 <div class="max-w-7xl mx-auto">
 
     <div class="flex justify-between items-center mb-8">
 
         <div>
 
-            <h1 class="text-3xl font-bold">
-                Study Groups
-            </h1>
 
             <p class="text-gray-500 mt-2">
                 Belajar bersama teman dengan membuat atau bergabung ke group.

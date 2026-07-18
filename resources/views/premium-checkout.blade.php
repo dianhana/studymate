@@ -1,5 +1,5 @@
 <x-app-layout>
-
+@section('title', 'Checkout Premium')
 <div class="max-w-4xl mx-auto py-10">
 
     <div class="bg-white rounded-2xl shadow-xl p-8">

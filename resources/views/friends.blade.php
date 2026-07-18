@@ -1,12 +1,8 @@
 <x-app-layout>
-
+@section('title', 'Partner Saya')
 <div class="max-w-6xl mx-auto">
 
     <div class="mb-8">
-
-        <h1 class="text-3xl font-bold">
-            Partner Saya
-        </h1>
 
         <p class="text-gray-500">
             Semua partner belajar yang sudah terhubung.

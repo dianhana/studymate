@@ -1,11 +1,8 @@
 <x-app-layout>
-
+@section('title', 'Permintaan Partner')
 <div class="max-w-6xl mx-auto">
 
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">
-            Permintaan Partner
-        </h1>
 
         <p class="text-gray-500 mt-2">
             Terima atau tolak permintaan partner yang masuk.

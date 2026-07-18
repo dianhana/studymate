@@ -1,5 +1,5 @@
 <x-app-layout>
-
+@section('title', 'Edit Materi')
 <div class="max-w-3xl mx-auto py-10">
 
     <div class="bg-white rounded-xl shadow p-8">

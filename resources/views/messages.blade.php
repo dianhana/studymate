@@ -1,5 +1,5 @@
 <x-app-layout>
-
+@section('title', 'Messages')
 <div class="max-w-7xl mx-auto h-[calc(100vh-170px)] bg-white rounded-xl shadow overflow-hidden">
 
     <div class="grid grid-cols-12 h-full overflow-hidden">
