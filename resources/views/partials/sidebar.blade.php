@@ -176,37 +176,61 @@
 
     </nav>
 
-    {{-- Bottom --}}
-    <div class="border-t border-white/10 p-4 space-y-3">
+   {{-- Bottom --}}
+<div class="border-t border-white/10 p-4 space-y-3">
 
-        @if(auth()->user()->isPremium())
+    @if(auth()->user()->isPremium())
 
-            <div class="bg-yellow-400/20 border border-yellow-300 rounded-lg p-3 text-center text-sm">
-                ⭐ Premium Member
+        <a href="{{ route('premium') }}"
+           class="block bg-yellow-400/20
+                  border border-yellow-300
+                  rounded-lg
+                  p-3
+                  text-center
+                  text-sm
+                  hover:bg-yellow-400/30
+                  transition">
+
+            ⭐ Premium Member
+
+            <div class="text-xs mt-1 text-yellow-100">
+                Berlaku sampai
+                {{ auth()->user()->membership_expired_at?->format('d M Y') }}
             </div>
 
-        @else
+        </a>
 
-            <a href="{{ route('premium') }}"
-                class="block text-center bg-white/10 hover:bg-white/20 rounded-lg py-2 text-sm transition">
+    @else
 
-                Upgrade Premium
+        <a href="{{ route('premium') }}"
+           class="block text-center
+                  bg-white/10
+                  hover:bg-white/20
+                  rounded-lg
+                  py-3
+                  transition">
 
-            </a>
+            Upgrade Premium
 
-        @endif
+        </a>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+    @endif
 
-            <button
-                class="w-full py-2 rounded-lg bg-red-500 hover:bg-red-600 transition">
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
 
-                Logout
+        <button
+            class="w-full py-3 rounded-lg bg-red-500 hover:bg-red-600 transition">
 
-            </button>
+            Logout
 
-        </form>
+        </button>
+
+    </form>
+
+</div>
+
+    
 
     </div>
 

@@ -8,21 +8,21 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('messages', function (Blueprint $table) {
-
-            $table->boolean('is_read')
-                  ->default(false)
-                  ->after('message');
-
-        });
+        if (!Schema::hasColumn('messages', 'is_read')) {
+            Schema::table('messages', function (Blueprint $table) {
+                $table->boolean('is_read')
+                      ->default(false)
+                      ->after('message');
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('messages', function (Blueprint $table) {
-
-            $table->dropColumn('is_read');
-
-        });
+        if (Schema::hasColumn('messages', 'is_read')) {
+            Schema::table('messages', function (Blueprint $table) {
+                $table->dropColumn('is_read');
+            });
+        }
     }
 };

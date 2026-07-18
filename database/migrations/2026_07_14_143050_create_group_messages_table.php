@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use App\Models\Group;
-use App\Models\GroupMessage;
-use Illuminate\Http\Request;
-
-class GroupMessageController extends Controller
+return new class extends Migration
 {
-    public function store(Request $request, Group $group)
+    public function up(): void
     {
-        $request->validate([
-            'message' => 'required'
-        ]);
-
-        GroupMessage::create([
-            'group_id' => $group->id,
-            'user_id' => auth()->id(),
-            'message' => $request->message
-        ]);
-
-        return back();
+        Schema::create('group_messages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('group_id')->constrained('groups')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->text('message');
+            $table->timestamps();
+        });
     }
-}
+
+    public function down(): void
+    {
+        Schema::dropIfExists('group_messages');
+    }
+};
