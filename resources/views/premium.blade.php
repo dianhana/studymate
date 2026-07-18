@@ -47,7 +47,7 @@
                 <li>✅ Download Materi Gratis</li>
                 <li>❌ Download Materi Premium</li>
                 <li>❌ Mentor Eksklusif</li>
-                <li>❌ Sertifikat Belajar</li>
+             
 
             </ul>
 
@@ -94,7 +94,6 @@
                 <li>✅ Semua Materi Premium</li>
                 <li>✅ Download Tanpa Batas</li>
                 <li>✅ Mentor Eksklusif</li>
-                <li>✅ Sertifikat Belajar</li>
                 <li>✅ Prioritas Matching Partner</li>
                 <li>✅ Akses Fitur Terbaru</li>
 
