@@ -10,6 +10,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MaterialCommentController;
 use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\DashboardController;
 
 
 
@@ -135,6 +136,10 @@ Route::post(
 
     Route::delete('/materials/{material}', [MaterialController::class,'destroy'])
         ->name('materials.destroy');
+    
+    Route::get('/dashboard',[DashboardController::class,'index'])
+    ->middleware(['auth','verified'])
+    ->name('dashboard');
 });
 
 require __DIR__.'/auth.php';

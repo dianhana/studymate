@@ -203,104 +203,71 @@
                         ⬇ {{ $material->downloads }} Download
 
                     </div>
+            <div class="flex flex-wrap gap-2 mt-4">
 
                     @if(!$joined)
 
-                    <button
-                        disabled
-                        class="inline-block bg-gray-400 text-white px-5 py-2 rounded-lg cursor-not-allowed">
+                        <button
+                            disabled
+                            class="bg-gray-400 text-white px-5 py-2 rounded-lg cursor-not-allowed">
 
-                        Join Group untuk Download
+                            Join Group
 
-                    </button>
+                        </button>
 
-                @elseif($material->is_premium && !auth()->user()->isPremium())
+                    @elseif($material->is_premium && !auth()->user()->isPremium())
 
-                    <a
-                        href="{{ route('premium') }}"
-                        class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg">
+                        <a
+                            href="{{ route('premium') }}"
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg">
 
-                        ⭐ Upgrade Premium
+                            ⭐ Upgrade Premium
 
-                    </a>
+                        </a>
 
-                @else
+                    @else
 
-                    <a
-                        href="{{ route('materials.download',$material->id) }}"
-                        class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+                        <a
+                            href="{{ route('materials.download',$material->id) }}"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
 
-                        Download
+                            Download
 
-                    </a>
+                        </a>
 
-                @endif
+                    @endif
+
+                    @if($isOwner)
+
+                        <a
+                            href="{{ route('materials.edit',$material->id) }}"
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg">
+
+                            ✏ Edit
+
+                        </a>
+
+                        <form
+                            action="{{ route('materials.destroy',$material->id) }}"
+                            method="POST">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button
+                                onclick="return confirm('Yakin ingin menghapus materi ini?')"
+                                class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg">
+
+                                🗑 Hapus
+
+                            </button>
+
+                        </form>
+
+                    @endif
 
                 </div>
-               <div class="flex flex-wrap gap-2 mt-4">
-
-    @if(!$joined)
-
-        <button
-            disabled
-            class="bg-gray-400 text-white px-5 py-2 rounded-lg cursor-not-allowed">
-
-            Join Group
-
-        </button>
-
-    @elseif($material->is_premium && !auth()->user()->isPremium())
-
-        <a
-            href="{{ route('premium') }}"
-            class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg">
-
-            ⭐ Upgrade Premium
-
-        </a>
-
-    @else
-
-        <a
-            href="{{ route('materials.download',$material->id) }}"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
-
-            Download
-
-        </a>
-
-    @endif
-
-    @if($isOwner)
-
-        <a
-            href="{{ route('materials.edit',$material->id) }}"
-            class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg">
-
-            ✏ Edit
-
-        </a>
-
-        <form
-            action="{{ route('materials.destroy',$material->id) }}"
-            method="POST">
-
-            @csrf
-            @method('DELETE')
-
-            <button
-                onclick="return confirm('Yakin ingin menghapus materi ini?')"
-                class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg">
-
-                🗑 Hapus
-
-            </button>
-
-        </form>
-
-    @endif
-
-</div>
+                </div>
 
                 @empty
 
